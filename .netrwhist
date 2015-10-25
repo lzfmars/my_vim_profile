@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/mars/vim-plugins/the_silver_searcher'
+let g:netrw_dirhist_2='/home/mars/.vim/bundle/cscope.vim'
+let g:netrw_dirhist_3='/home/mars/.vim/bundle/ack.vim'
+let g:netrw_dirhist_4='/home/mars/.vim/bundle/cscope.vim/plugin'
+let g:netrw_dirhist_5='/home/mars/genericd'
+let g:netrw_dirhist_6='/home/mars/openwrt/build_dir/target-i386_i486_uClibc-0.9.33.2/root-x86/lib/preinit'
+let g:netrw_dirhist_7='/home/mars/openwrt/build_dir/target-i386_i486_uClibc-0.9.33.2/root-x86/etc/rc.d'
+let g:netrw_dirhist_8='/home/mars/linux-source-3.13.0'
+let g:netrw_dirhist_9='/home/mars/linux-3.3.8/net/ipv4/netfilter'
