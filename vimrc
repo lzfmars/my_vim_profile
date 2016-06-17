@@ -14,6 +14,9 @@ Plugin 'gmarik/Vundle.vim'
 
 " plugin in github
 Plugin 'cscope.vim'
+let g:cscope_open_location = 0
+let g:cscope_ignore_files = '.*[^\.][^ch]$'
+let g:cscope_ignore_strict = 0
 nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
 nnoremap <leader>o <CR>:lop<CR>
@@ -42,22 +45,26 @@ let g:airline_section_b = '%{getcwd()}'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_theme = "solarized"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#enabled = 0
+
+Plugin 'vim-airline/vim-airline-themes'
+let g:airline_theme = "solarized"
 
 Plugin 'altercation/vim-colors-solarized'
 syntax on
 set background=dark
+set t_Co=256
 let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
 let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
 Plugin 'Valloric/YouCompleteMe'
-let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 Plugin 'mileszs/ack.vim'
 nnoremap go <CR>:cope<CR>
@@ -70,12 +77,22 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_cache_dir = '/tmp/ctrlp.cache'
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_root_markers = ['README', 'CMakeLists.txt', 'cofiregure.ac', 'Makefile.am']
+let g:ctrlp_root_markers = ['README', 'CMakeLists.txt', 'cofiregure.ac', 'Makefile.am', 'build.sh']
+let g:ctrlp_regexp = 1
 
 Plugin 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
 
 Plugin 'scrooloose/nerdcommenter'
+
+Plugin 'kshenoy/vim-signature'
+
+Plugin  'ianva/vim-youdao-translater'
+vnoremap <silent> <C-T> :<C-u>Ydv<CR>
+nnoremap <silent> <C-T> :<C-u>Ydc<CR>
+noremap <leader>yd :<C-u>Yde<CR>
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -118,3 +135,6 @@ vnoremap <silent> ga :call VisualSelection_ack('ga')<CR>
 " netrw settings
 let g:netrw_preview = 1
 let g:netrw_winsize = 20
+
+highlight SignColumn ctermbg=8
+
