@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/home/mars/develop/lvs-tools/ip_vs_rcv_hooks/basic_defences'
-let g:netrw_dirhist_2='/home/mars/develop/lvs-tools/ip_vs_rcv_hooks'
