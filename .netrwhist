@@ -1,8 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/home/mars/LBG/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32'
-let g:netrw_dirhist_2='/home/mars/ip_vs_rcv_hook'
-let g:netrw_dirhist_3='/home/mars'
-let g:netrw_dirhist_4='/home/mars/ip_vs_rcv_hook'
-let g:netrw_dirhist_5='/home/mars/develop/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/net/netfilter'
-let g:netrw_dirhist_6='/home/mars/develop/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/net/netfilter/ipvs'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/mars/develop/lvs-tools/ip_vs_rcv_hooks/basic_defences'
+let g:netrw_dirhist_2='/home/mars/develop/lvs-tools/ip_vs_rcv_hooks'

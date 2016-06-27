@@ -15,7 +15,7 @@ Plugin 'gmarik/Vundle.vim'
 " plugin in github
 Plugin 'cscope.vim'
 let g:cscope_open_location = 0
-let g:cscope_ignore_files = '.*[^\.][^ch]$'
+let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$'
 let g:cscope_ignore_strict = 0
 nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
@@ -41,12 +41,13 @@ Plugin 'bling/vim-airline'
 set laststatus=2
 set encoding=utf-8
 set ttimeoutlen=50
-let g:airline_section_b = '%{getcwd()}'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#branch#enabled = 1
 
 Plugin 'vim-airline/vim-airline-themes'
 let g:airline_theme = "solarized"
@@ -76,9 +77,18 @@ Plugin 'kien/ctrlp.vim'
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_cache_dir = '/tmp/ctrlp.cache'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_root_markers = ['README', 'CMakeLists.txt', 'cofiregure.ac', 'Makefile.am', 'build.sh']
+let g:ctrlp_root_markers = ['.git', 'README', 'configure.ac', 'Makefile.am']
 let g:ctrlp_regexp = 1
+let g:ctrlp_max_files = 100000
+let g:ctrlp_user_command = {
+\ 'types': {
+  \ 1: ['.git', 'cd %s && git ls-files'],
+  \ },
+\ 'fallback': 'ag %s -l --nocolor -g ""'
+\ }
+
+Plugin 'FelikZ/ctrlp-py-matcher'
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
 Plugin 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
@@ -86,13 +96,25 @@ let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 
 Plugin 'scrooloose/nerdcommenter'
-
-Plugin 'kshenoy/vim-signature'
+let g:NERDSpaceDelims = 1
+let g:NERDRemoveExtraSpaces = 1
 
 Plugin  'ianva/vim-youdao-translater'
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'easymotion/vim-easymotion'
+nmap s <Plug>(easymotion-overwin-f2)
+let g:EasyMotion_verbose = 0
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+
+Plugin 'vim-utils/vim-man'
+map <leader>k <Plug>(Man)
+map <leader>v <Plug>(Vman)
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
