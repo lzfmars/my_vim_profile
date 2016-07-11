@@ -170,7 +170,9 @@ function! s:CheckNewFile(dir, newfile)
   let files = readfile(cscope_files)
   if count(files, a:newfile) == 0
     call add(files, a:newfile)
-    call writefile(files, cscope_files)
+    if filewritable(cscope_files)
+      call writefile(files, cscope_files)
+    endif
     call writefile(files, cscope_files_save)
   endif
 endfunction
