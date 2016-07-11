@@ -67,11 +67,12 @@ let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
-Plugin 'mileszs/ack.vim'
-nnoremap go <CR>:cope<CR>
-nnoremap gc :ccl<CR>
-let g:ackprg="ag --vimgrep -Q"
-let g:ackhighlight = 1
+Plugin 'dyng/ctrlsf.vim'
+nmap gs <Plug>CtrlSFPrompt
+vmap ga <Plug>CtrlSFVwordExec
+nmap ga <Plug>CtrlSFCwordExec
+noremap gc <Esc>:CtrlSFToggle<CR>
+let g:ctrlsf_default_root = 'project'
 
 Plugin 'kien/ctrlp.vim'
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
@@ -107,7 +108,7 @@ noremap <leader>yd :<C-u>Yde<CR>
 Plugin 'tpope/vim-fugitive'
 
 Plugin 'easymotion/vim-easymotion'
-nmap s <Plug>(easymotion-overwin-f2)
+nmap f <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_verbose = 0
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
@@ -134,25 +135,11 @@ set nobackup
 set enc=utf-8
 set fenc=utf-8
 
+map <leader>y "+y
+map <leader>p "+p
+
 " enable colorscheme
 colorscheme solarized
-
-" ack.vim
-function! VisualSelection_ack(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\"`$')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'ga'
-        execute "Ack " . "\"" . l:pattern . "\""
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
-vnoremap <silent> ga :call VisualSelection_ack('ga')<CR>
 
 " netrw settings
 let g:netrw_preview = 1
