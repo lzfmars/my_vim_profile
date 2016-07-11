@@ -167,7 +167,7 @@ function! s:CheckNewFile(dir, newfile)
   let id = s:dbs[a:dir]['id']
   let cscope_files = s:cscope_vim_dir."/".id.".files"
   let cscope_files_save = s:cscope_vim_dir_save."/".id.".files"
-  let files = readfile(cscope_files)
+  let files = readfile(cscope_files_save)
   if count(files, a:newfile) == 0
     call add(files, a:newfile)
     if filewritable(cscope_files)
