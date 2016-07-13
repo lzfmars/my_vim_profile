@@ -347,4 +347,11 @@ function! cscope#updateDB()
   call <SID>updateDBs(keys(s:dbs))
 endfunction
 
-au VimLeave * exec 'silent !rm -rf '.s:cscope_vim_dir
+function! s:RmADBfiles(dir)
+  let m_dir = <SID>GetBestPath(a:dir)
+  if m_dir != ""
+    let id = s:dbs[m_dir]['id']
+    exec 'silent !rm -f '.s:cscope_vim_dir.'/'.id.'.db '.s:cscope_vim_dir.'/'.id.'.files'
+  endif
+endfunction
+au VimLeave * call <SID>RmADBfiles(expand('%:p:h'))
