@@ -138,6 +138,8 @@ set fenc=utf-8
 map <leader>y "+y
 map <leader>p "+p
 
+nnoremap s <nop>
+
 " enable colorscheme
 colorscheme solarized
 
