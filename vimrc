@@ -149,6 +149,11 @@ if v:version < 704
 	filetype plugin indent on	  " required
 endif
 
+if g:lang == 'python'
+	set et
+	set sta
+	set sts=4
+endif
 set nu
 set ai
 set ci
