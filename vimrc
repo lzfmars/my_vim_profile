@@ -1,7 +1,15 @@
 " My vim settings
+filetype plugin indent on
 
 set nocompatible              " be iMproved, required
-filetype off                  " required
+if v:version < 704
+	filetype off                  " required
+else
+	let g:lang = ''
+	autocmd Filetype python let g:lang = 'python'
+	autocmd Filetype c let g:lang = 'c'
+endif
+
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -14,6 +22,9 @@ Plugin 'gmarik/Vundle.vim'
 
 " plugin in github
 Plugin 'cscope.vim'
+if g:lang == 'python'
+	let g:cscope_cmd = '/usr/local/bin/pycscope'
+endif
 let g:cscope_open_location = 0
 let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$'
 let g:cscope_ignore_strict = 0
@@ -113,13 +124,30 @@ let g:EasyMotion_verbose = 0
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 
-Plugin 'vim-utils/vim-man'
-map <leader>k <Plug>(Man)
-map <leader>v <Plug>(Vman)
+if g:lang == 'c'
+	Plugin 'vim-utils/vim-man'
+	map <leader>k <Plug>(Man)
+	map <leader>v <Plug>(Vman)
+endif
+
+if g:lang == 'python'
+	Plugin 'scrooloose/syntastic'
+	set statusline+=%#warningmsg#
+	set statusline+=%{SyntasticStatuslineFlag()}
+	set statusline+=%*
+
+	let g:syntastic_python_checkers = ["flake8"]
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_check_on_open = 1
+	let g:syntastic_check_on_wq = 0
+endif
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on	  " required
+if v:version < 704
+	filetype plugin indent on	  " required
+endif
 
 set nu
 set ai

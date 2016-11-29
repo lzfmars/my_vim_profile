@@ -191,7 +191,11 @@ function! s:_CreateDB(dir)
     endif
   endif
   exec 'cs kill '.s:cscope_vim_dir.'/'.id.'.db'
-  exec 'silent !'.g:cscope_cmd.' -b -k -i '.cscope_files.' -f '.s:cscope_vim_dir.'/'.id.'.db'
+  if g:lang == 'python'
+    exec 'silent !'.g:cscope_cmd.' -i '.cscope_files.' -f '.s:cscope_vim_dir.'/'.id.'.db'
+  else
+    exec 'silent !'.g:cscope_cmd.' -b -k -i '.cscope_files.' -f '.s:cscope_vim_dir.'/'.id.'.db'
+  endif
   let s:dbs[a:dir]['dirty'] = 0
   exec 'silent !cp -f '.s:cscope_vim_dir.'/'.id.'.db '.s:cscope_vim_dir_save.' &'
   exec 'silent !cp -f '.s:cscope_vim_dir.'/'.id.'.files '.s:cscope_vim_dir_save.' &'
