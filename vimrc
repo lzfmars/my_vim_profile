@@ -4,6 +4,7 @@ filetype plugin indent on
 set nocompatible              " be iMproved, required
 if v:version < 704
 	filetype off                  " required
+	let g:lang = 'c'
 else
 	let g:lang = ''
 	autocmd Filetype python let g:lang = 'python'
@@ -94,9 +95,9 @@ let g:ctrlp_regexp = 1
 let g:ctrlp_max_files = 100000
 let g:ctrlp_user_command = {
 \ 'types': {
-  \ 1: ['.git', 'cd %s && git ls-files'],
+  \ 1: ['.git', 'cd %s && git ls-files . -co --exclude-standard'],
   \ },
-\ 'fallback': 'ag %s -l --nocolor -g ""'
+\ 'fallback': 'ag %s -l --nocolor -g "\.(c|h)$"'
 \ }
 
 Plugin 'FelikZ/ctrlp-py-matcher'
@@ -167,6 +168,7 @@ set nobackup
 
 set enc=utf-8
 set fenc=utf-8
+let g:c_syntax_for_h = 1
 
 map <leader>y "+y
 map <leader>p "+p
@@ -181,4 +183,9 @@ let g:netrw_preview = 1
 let g:netrw_winsize = 20
 
 highlight SignColumn ctermbg=8
+
+augroup resCur
+  autocmd!
+  autocmd BufReadPost * call setpos(".", getpos("'\""))
+augroup END
 
