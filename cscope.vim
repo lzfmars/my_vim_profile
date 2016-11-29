@@ -79,9 +79,8 @@ if exists('g:cscope_ignore_strict') && g:cscope_ignore_strict == 1
   let g:cscope_ignore_files = g:cscope_ignore_files.'\|\.xml$\|\.yml$\|\.ini$\|\.conf$\|\.css$\|\.htc$\|\.bat$\|\.sh$\|\.txt$\|\.log$\|\.dtd$\|\.xsd$'
 endif
 
-let s:cscope_vim_dir = "/tmp/.cscope.vim"
-let s:cscope_vim_dir_save = substitute($HOME,'\\','/','g')."/.cscope.vim"
-let s:index_file = s:cscope_vim_dir_save.'/index'
+let s:cscope_vim_dir = substitute($HOME,'\\','/','g')."/.cscope.vim"
+let s:index_file = s:cscope_vim_dir.'/index'
 
 function! s:ListFiles(dir)
   let d = []
@@ -115,19 +114,12 @@ function! s:RmDBfiles()
   for f in odbs
     call delete(f)
   endfor
-  let odbs = split(globpath(s:cscope_vim_dir_save, "*"), "\n")
-  for f in odbs
-    call delete(f)
-  endfor
 endfunction
 
 function! s:LoadIndex()
   let s:dbs = {}
   if ! isdirectory(s:cscope_vim_dir)
     call mkdir(s:cscope_vim_dir)
-  endif
-  if ! isdirectory(s:cscope_vim_dir_save)
-    call mkdir(s:cscope_vim_dir_save)
   elseif filereadable(s:index_file)
     let idx = readfile(s:index_file)
     for i in idx
@@ -136,7 +128,7 @@ function! s:LoadIndex()
         call delete(s:index_file)
         call <SID>RmDBfiles()
       else
-        let db_file = s:cscope_vim_dir_save.'/'.e[1].'.db'
+        let db_file = s:cscope_vim_dir.'/'.e[1].'.db'
         if filereadable(db_file)
           if isdirectory(e[0])
             let s:dbs[e[0]] = {}
@@ -166,29 +158,19 @@ endfunction
 function! s:CheckNewFile(dir, newfile)
   let id = s:dbs[a:dir]['id']
   let cscope_files = s:cscope_vim_dir."/".id.".files"
-  let cscope_files_save = s:cscope_vim_dir_save."/".id.".files"
-  let files = readfile(cscope_files_save)
+  let files = readfile(cscope_files)
   if count(files, a:newfile) == 0
     call add(files, a:newfile)
-    if filewritable(cscope_files)
-      call writefile(files, cscope_files)
-    endif
-    call writefile(files, cscope_files_save)
+    call writefile(files, cscope_files)
   endif
 endfunction
 
 function! s:_CreateDB(dir)
   let id = s:dbs[a:dir]['id']
   let cscope_files = s:cscope_vim_dir."/".id.".files"
-  let cscope_files_save = s:cscope_vim_dir_save."/".id.".files"
   if ! filereadable(cscope_files)
-    if filereadable(cscope_files_save)
-      exec 'silent !cp -f '.s:cscope_vim_dir_save.'/'.id.'.files '.s:cscope_vim_dir
-      exec 'silent !cp -f '.s:cscope_vim_dir_save.'/'.id.'.db '.s:cscope_vim_dir
-    else
-      let files = <SID>ListFiles(a:dir)
-      call writefile(files, cscope_files)
-    endif
+    let files = <SID>ListFiles(a:dir)
+    call writefile(files, cscope_files)
   endif
   exec 'cs kill '.s:cscope_vim_dir.'/'.id.'.db'
   if g:lang == 'python'
@@ -197,8 +179,6 @@ function! s:_CreateDB(dir)
     exec 'silent !'.g:cscope_cmd.' -b -k -i '.cscope_files.' -f '.s:cscope_vim_dir.'/'.id.'.db'
   endif
   let s:dbs[a:dir]['dirty'] = 0
-  exec 'silent !cp -f '.s:cscope_vim_dir.'/'.id.'.db '.s:cscope_vim_dir_save.' &'
-  exec 'silent !cp -f '.s:cscope_vim_dir.'/'.id.'.files '.s:cscope_vim_dir_save.' &'
 endfunction
 
 function! s:CheckAbsolutePath(dir, defaultPath)
@@ -247,11 +227,6 @@ function! s:AutoloadDB(dir)
     endif
   else
     let id = s:dbs[m_dir]['id']
-    let cscope_db = s:cscope_vim_dir."/".id.".db"
-    if ! filereadable(cscope_db)
-      exec 'silent !cp -f '.s:cscope_vim_dir_save.'/'.id.'.db '.s:cscope_vim_dir
-      exec 'silent !cp -f '.s:cscope_vim_dir_save.'/'.id.'.files '.s:cscope_vim_dir
-    endif
     if cscope_connection(2, s:cscope_vim_dir.'/'.id.'.db') == 0
       call <SID>LoadDB(m_dir)
     endif
@@ -305,10 +280,11 @@ function! cscope#find(action, word)
     if g:cscope_open_location == 1
       lw
     endif
+    redraw!
   catch
+    redraw!
     echohl WarningMsg | echo 'Can not find '.a:word.' with querytype as '.a:action.'.' | echohl None
   endtry
-  redraw!
 endfunction
 
 function! cscope#findInteractive(pat)
@@ -350,12 +326,3 @@ endfunction
 function! cscope#updateDB()
   call <SID>updateDBs(keys(s:dbs))
 endfunction
-
-function! s:RmADBfiles(dir)
-  let m_dir = <SID>GetBestPath(a:dir)
-  if m_dir != ""
-    let id = s:dbs[m_dir]['id']
-    exec 'silent !rm -f '.s:cscope_vim_dir.'/'.id.'.db '.s:cscope_vim_dir.'/'.id.'.files'
-  endif
-endfunction
-au VimLeave * call <SID>RmADBfiles(expand('%:p:h'))
