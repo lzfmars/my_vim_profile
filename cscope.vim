@@ -2,6 +2,9 @@
 "    Copyright: Copyright (C) 2012-2015 Brook Hong
 "    License: The MIT License
 "
+if !exists('g:cscope_lang')
+  let g:cscope_lang = ''
+endif
 
 if !exists('g:cscope_silent')
   let g:cscope_silent = 0
@@ -173,7 +176,7 @@ function! s:_CreateDB(dir)
     call writefile(files, cscope_files)
   endif
   exec 'cs kill '.s:cscope_vim_dir.'/'.id.'.db'
-  if g:lang == 'python'
+  if g:cscope_lang == 'python'
     exec 'silent !'.g:cscope_cmd.' -i '.cscope_files.' -f '.s:cscope_vim_dir.'/'.id.'.db'
   else
     exec 'silent !'.g:cscope_cmd.' -b -k -i '.cscope_files.' -f '.s:cscope_vim_dir.'/'.id.'.db'

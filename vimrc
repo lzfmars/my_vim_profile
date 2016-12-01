@@ -2,14 +2,10 @@
 filetype plugin indent on
 
 set nocompatible              " be iMproved, required
-if v:version < 704
-	filetype off                  " required
-	let g:lang = 'c'
-else
-	let g:lang = ''
-	autocmd Filetype python let g:lang = 'python'
-	autocmd Filetype c let g:lang = 'c'
-endif
+let g:lang = ''
+autocmd FileType python let g:lang = 'python'
+autocmd FileType c let g:lang = 'c'
+filetype detect
 
 
 " set the runtime path to include Vundle and initialize
@@ -23,11 +19,21 @@ Plugin 'gmarik/Vundle.vim'
 
 " plugin in github
 Plugin 'cscope.vim'
+autocmd FileType python let g:cscope_cmd = '/usr/local/bin/pycscope' |
+			\ let g:cscope_ignore_files = '.*[^\.][^p][^y]$' |
+			\ let g:cscope_lang = 'python'
+autocmd FileType c let g:cscope_cmd = '/usr/bin/cscope' |
+			\ let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$' |
+			\ let g:cscope_lang = 'c'
 if g:lang == 'python'
 	let g:cscope_cmd = '/usr/local/bin/pycscope'
+	let g:cscope_ignore_files = '.*[^\.][^p][^y]$'
+	let g:cscope_lang = 'python'
+else
+	let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$'
+	let g:cscope_lang = 'c'
 endif
 let g:cscope_open_location = 0
-let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$'
 let g:cscope_ignore_strict = 0
 nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
@@ -97,7 +103,7 @@ let g:ctrlp_user_command = {
 \ 'types': {
   \ 1: ['.git', 'cd %s && git ls-files . -co --exclude-standard'],
   \ },
-\ 'fallback': 'ag %s -l --nocolor -g "\.(c|h)$"'
+\ 'fallback': 'ag %s -l --nocolor -g "\.(c|h|py)$"'
 \ }
 
 Plugin 'FelikZ/ctrlp-py-matcher'
@@ -125,24 +131,24 @@ let g:EasyMotion_verbose = 0
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 
-if g:lang == 'c'
-	Plugin 'vim-utils/vim-man'
-	map <leader>k <Plug>(Man)
-	map <leader>v <Plug>(Vman)
-endif
+Plugin 'vim-utils/vim-man'
+map <leader>k <Plug>(Man)
+map <leader>v <Plug>(Vman)
 
-if g:lang == 'python'
-	Plugin 'scrooloose/syntastic'
-	set statusline+=%#warningmsg#
-	set statusline+=%{SyntasticStatuslineFlag()}
-	set statusline+=%*
+" if g:lang == 'python'
+    " Plugin 'scrooloose/syntastic'
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
 
-	let g:syntastic_python_checkers = ["flake8"]
-	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 1
-	let g:syntastic_check_on_open = 1
-	let g:syntastic_check_on_wq = 0
-endif
+    " let g:syntastic_python_checkers = ["flake8"]
+    " let g:syntastic_always_populate_loc_list = 1
+    " let g:syntastic_auto_loc_list = 1
+    " let g:syntastic_check_on_open = 1
+    " let g:syntastic_check_on_wq = 0
+" endif
+
+Plugin 'vim-scripts/pydoc.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -150,17 +156,29 @@ if v:version < 704
 	filetype plugin indent on	  " required
 endif
 
+autocmd FileType python set et |
+			\ set sta |
+			\ set sts=2 |
+			\ set sw=2 |
+			\ set ts=2 |
+			\ set tw=79
+autocmd FileType c set sw=4 |
+			\ set ts=4
 if g:lang == 'python'
 	set et
 	set sta
-	set sts=4
+	set sts=2
+	set sw=2
+	set ts=2
+	set tw=79
+else
+	set sw=4
+	set ts=4
 endif
 set nu
 set ai
 set ci
-set ts=4
 set wim=longest,list
-set sw=4
 set hls
 set backspace=indent,eol,start
 set writebackup
