@@ -9,16 +9,16 @@ filetype detect
 
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" set rtp+=~/.vim/bundle/Vundle.vim
+call plug#begin('~/.vim/plugged')
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Plug 'gmarik/Vundle.vim'
 
 " plugin in github
-Plugin 'cscope.vim'
+Plug 'cscope.vim', {'for': ['c', 'python']}
 autocmd FileType python let g:cscope_cmd = '/usr/local/bin/pycscope' |
 			\ let g:cscope_ignore_files = '.*[^\.][^p][^y]$' |
 			\ let g:cscope_lang = 'python'
@@ -55,7 +55,7 @@ nnoremap  <leader>ff :call cscope#find('f', expand('<cword>'))<CR>
 " i: Find files #including this file
 nnoremap  <leader>fi :call cscope#find('i', expand('<cword>'))<CR>
 
-Plugin 'bling/vim-airline'
+Plug 'bling/vim-airline'
 set laststatus=2
 set encoding=utf-8
 set ttimeoutlen=50
@@ -67,10 +67,10 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = "solarized"
 
-Plugin 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 syntax on
 set background=dark
 set t_Co=256
@@ -79,20 +79,20 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
-Plugin 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
 let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
-Plugin 'dyng/ctrlsf.vim'
+Plug 'dyng/ctrlsf.vim'
 nmap gs <Plug>CtrlSFPrompt
 vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
 let g:ctrlsf_default_root = 'project'
 
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_cache_dir = '/tmp/ctrlp.cache'
@@ -106,74 +106,72 @@ let g:ctrlp_user_command = {
 \ 'fallback': 'ag %s -l --nocolor -g "\.(c|h|py)$"'
 \ }
 
-Plugin 'FelikZ/ctrlp-py-matcher'
+Plug 'FelikZ/ctrlp-py-matcher'
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', {'for': ['c', 'python'], 'on': 'TarbarToggle'}
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
 
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
 
-Plugin  'ianva/vim-youdao-translater'
+Plug  'ianva/vim-youdao-translater'
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
-Plugin 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-overwin-f2)'}
 nmap f <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_verbose = 0
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 
-Plugin 'vim-utils/vim-man'
+Plug 'vim-utils/vim-man', {'for': 'c'}
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
-" if g:lang == 'python'
-    " Plugin 'scrooloose/syntastic'
-    " set statusline+=%#warningmsg#
-    " set statusline+=%{SyntasticStatuslineFlag()}
-    " set statusline+=%*
+Plug 'scrooloose/syntastic', {'for': 'python'}
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_c_checker = 0
+let g:syntastic_enable_cpp_checker = 0
 
-    " let g:syntastic_python_checkers = ["flake8"]
-    " let g:syntastic_always_populate_loc_list = 1
-    " let g:syntastic_auto_loc_list = 1
-    " let g:syntastic_check_on_open = 1
-    " let g:syntastic_check_on_wq = 0
-" endif
-
-Plugin 'vim-scripts/pydoc.vim'
+Plug 'vim-scripts/pydoc.vim', {'for': 'python'}
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-if v:version < 704
-	filetype plugin indent on	  " required
-endif
+call plug#end()            " required
 
 autocmd FileType python set et |
 			\ set sta |
-			\ set sts=2 |
-			\ set sw=2 |
-			\ set ts=2 |
+			\ set sts=4 |
+			\ set sw=4 |
+			\ set ts=4 |
 			\ set tw=79
 autocmd FileType c set sw=4 |
 			\ set ts=4
+			\ set tw=80
 if g:lang == 'python'
 	set et
 	set sta
-	set sts=2
-	set sw=2
-	set ts=2
+	set sts=4
+	set sw=4
+	set ts=4
 	set tw=79
 else
 	set sw=4
 	set ts=4
+	set tw=80
 endif
 set nu
 set ai
@@ -206,4 +204,3 @@ augroup resCur
   autocmd!
   autocmd BufReadPost * call setpos(".", getpos("'\""))
 augroup END
-
