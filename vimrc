@@ -79,13 +79,18 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
+augroup load_us_ycm
+	autocmd!
+	autocmd InsertEnter * call plug#load('YouCompleteMe')
+						\| autocmd! load_us_ycm
+augroup END
 
-Plug 'dyng/ctrlsf.vim'
+Plug 'dyng/ctrlsf.vim', {'on': ['<Plug>CtrlSFPrompt', '<Plug>CtrlSFVwordExec', '<Plug>CtrlSFCwordExec', 'CtrlSFToggle']}
 nmap gs <Plug>CtrlSFPrompt
 vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
@@ -109,7 +114,7 @@ let g:ctrlp_user_command = {
 Plug 'FelikZ/ctrlp-py-matcher'
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
-Plug 'majutsushi/tagbar', {'for': ['c', 'python'], 'on': 'TarbarToggle'}
+Plug 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
@@ -131,7 +136,7 @@ let g:EasyMotion_verbose = 0
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 
-Plug 'vim-utils/vim-man', {'for': 'c'}
+Plug 'vim-utils/vim-man', {'for': 'c', 'on': ['<Plug>Man', '<Plug>Vman']}
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
@@ -159,7 +164,7 @@ autocmd FileType python set et |
 			\ set ts=4 |
 			\ set tw=79
 autocmd FileType c set sw=4 |
-			\ set ts=4
+			\ set ts=4 |
 			\ set tw=80
 if g:lang == 'python'
 	set et
