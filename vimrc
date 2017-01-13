@@ -79,7 +79,7 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer --tern-completer', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
@@ -152,7 +152,9 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_c_checker = 0
 let g:syntastic_enable_cpp_checker = 0
 
-Plug 'vim-scripts/pydoc.vim', {'for': 'python'}
+Plug 'fs111/pydoc.vim', {'for': 'python'}
+let g:pydoc_open_cmd = 'vsplit'
+let g:pydoc_highlight = 0
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
