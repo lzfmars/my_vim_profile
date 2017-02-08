@@ -35,6 +35,7 @@ else
 endif
 let g:cscope_open_location = 0
 let g:cscope_ignore_strict = 0
+let g:cscope_silent = 1
 nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
 nnoremap <leader>o <CR>:lop<CR>
@@ -84,6 +85,10 @@ let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-so
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_semantic_triggers = {
+    \   'css': [ 're!^\s{4}', 're!:\s+'],
+    \   'html': [ '</' ],
+    \ }
 augroup load_us_ycm
 	autocmd!
 	autocmd InsertEnter * call plug#load('YouCompleteMe')
@@ -140,17 +145,17 @@ Plug 'vim-utils/vim-man', {'for': 'c', 'on': ['<Plug>Man', '<Plug>Vman']}
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
-Plug 'scrooloose/syntastic', {'for': 'python'}
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_c_checker = 0
-let g:syntastic_enable_cpp_checker = 0
+" Plug 'scrooloose/syntastic', {'for': 'python'}
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_python_checkers = ["flake8"]
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_enable_c_checker = 0
+" let g:syntastic_enable_cpp_checker = 0
 
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 let g:pydoc_open_cmd = 'vsplit'
@@ -175,10 +180,13 @@ if g:lang == 'python'
 	set sw=4
 	set ts=4
 	set tw=79
-else
+elseif g:lang == 'c'
 	set sw=4
 	set ts=4
 	set tw=80
+else
+	set sw=4
+	set ts=4
 endif
 set nu
 set ai
