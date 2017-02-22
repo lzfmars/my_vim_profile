@@ -38,7 +38,7 @@ let g:cscope_ignore_strict = 0
 let g:cscope_silent = 1
 nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
 nnoremap <leader>l :call ToggleLocationList()<CR>
-nnoremap <leader>o <CR>:lop<CR>
+nnoremap <leader>o <CR>zz:lop<CR>
 " s: Find this C symbol
 nnoremap  <leader>fs :call cscope#find('s', expand('<cword>'))<CR>
 " g: Find this definition
@@ -80,7 +80,7 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer --tern-completer', 'on': []}
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
@@ -172,22 +172,21 @@ autocmd FileType python set et |
 			\ set tw=79
 autocmd FileType c set sw=4 |
 			\ set ts=4 |
-			\ set tw=80
-if g:lang == 'python'
-	set et
-	set sta
-	set sts=4
-	set sw=4
-	set ts=4
-	set tw=79
-elseif g:lang == 'c'
-	set sw=4
-	set ts=4
-	set tw=80
-else
-	set sw=4
-	set ts=4
-endif
+			\ set tw=80 |
+			\ set noet |
+			\ set nosta
+autocmd FileType javascript set et |
+			\ set sta |
+			\ set sts=4 |
+			\ set sw=4 |
+			\ set ts=4
+autocmd FileType html,css set noet |
+			\ set nosta |
+			\ set sw=4 |
+			\ set ts=4
+set sw=4
+set ts=4
+" endif
 set nu
 set ai
 set ci
@@ -212,8 +211,6 @@ colorscheme solarized
 " netrw settings
 let g:netrw_preview = 1
 let g:netrw_winsize = 20
-
-highlight SignColumn ctermbg=8
 
 augroup resCur
   autocmd!
