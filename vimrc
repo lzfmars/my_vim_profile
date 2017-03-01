@@ -145,17 +145,17 @@ Plug 'vim-utils/vim-man', {'for': 'c', 'on': ['<Plug>Man', '<Plug>Vman']}
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
-" Plug 'scrooloose/syntastic', {'for': 'python'}
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_python_checkers = ["flake8"]
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_enable_c_checker = 0
-" let g:syntastic_enable_cpp_checker = 0
+Plug 'scrooloose/syntastic', {'for': 'python'}
+set statusline+=%#warningmsg#
+set statusline+=%{syntasticstatuslineflag()}
+set statusline+=%*
+let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_c_checker = 0
+let g:syntastic_enable_cpp_checker = 0
 
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 let g:pydoc_open_cmd = 'vsplit'
