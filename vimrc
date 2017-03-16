@@ -87,7 +87,7 @@ let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_semantic_triggers = {
     \   'css': [ 're!^\s{4}', 're!:\s+'],
-    \   'html': [ '</' ],
+    \   'html': [ '<', '</' ],
     \ }
 augroup load_us_ycm
 	autocmd!
@@ -102,22 +102,8 @@ nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
 let g:ctrlsf_default_root = 'project'
 
-Plug 'kien/ctrlp.vim'
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_cache_dir = '/tmp/ctrlp.cache'
-let g:ctrlp_root_markers = ['.git', 'README', 'configure.ac', 'Makefile.am']
-let g:ctrlp_regexp = 1
-let g:ctrlp_max_files = 100000
-let g:ctrlp_user_command = {
-\ 'types': {
-  \ 1: ['.git', 'cd %s && git ls-files . -co --exclude-standard'],
-  \ },
-\ 'fallback': 'ag %s -l --nocolor -g "\.(c|h|py)$"'
-\ }
-
-Plug 'FelikZ/ctrlp-py-matcher'
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+Plug 'junegunn/fzf', { 'do': './install --all' }
+nmap <C-p> :FZF<CR>
 
 Plug 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
@@ -135,6 +121,11 @@ noremap <leader>yd :<C-u>Yde<CR>
 
 Plug 'tpope/vim-fugitive'
 
+Plug 'gregsexton/gitv'
+nmap <F9> :Gitv<CR>
+let g:Gitv_OpenHorizontal = 1
+let g:Gitv_WrapLines = 1
+
 Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-overwin-f2)'}
 nmap f <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_verbose = 0
@@ -145,17 +136,12 @@ Plug 'vim-utils/vim-man', {'for': 'c', 'on': ['<Plug>Man', '<Plug>Vman']}
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
-Plug 'scrooloose/syntastic', {'for': 'python'}
-set statusline+=%#warningmsg#
-set statusline+=%{syntasticstatuslineflag()}
-set statusline+=%*
-let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_c_checker = 0
-let g:syntastic_enable_cpp_checker = 0
+Plug 'w0rp/ale', {'for': 'python'}
+let g:airline#extensions#ale#enabled = 0
+let g:ale_set_loclist = 0
+let g:ale_linters = {
+\   'python': ['flake8'],
+\}
 
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 let g:pydoc_open_cmd = 'vsplit'
@@ -199,6 +185,7 @@ set nobackup
 set enc=utf-8
 set fenc=utf-8
 let g:c_syntax_for_h = 1
+set foldlevelstart=99
 
 map <leader>y "+y
 map <leader>p "+p
