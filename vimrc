@@ -81,7 +81,7 @@ let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
-let g:ycm_global_ycm_extra_conf = '/home/mars/lvs-v4/lvs-kernel/redhat-kernel-source/linux-2.6.32/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '/home/mars/linux/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -105,6 +105,10 @@ let g:ctrlsf_default_root = 'project'
 Plug 'junegunn/fzf', { 'do': './install --all' }
 nmap <C-p> :FZF<CR>
 
+Plug 'junegunn/fzf.vim'
+nmap <C-l> :Tags<CR>
+nmap <C-k> :BTags<CR>
+
 Plug 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
@@ -121,10 +125,8 @@ noremap <leader>yd :<C-u>Yde<CR>
 
 Plug 'tpope/vim-fugitive'
 
-Plug 'gregsexton/gitv'
-nmap <F9> :Gitv<CR>
-let g:Gitv_OpenHorizontal = 1
-let g:Gitv_WrapLines = 1
+Plug 'junegunn/gv.vim'
+nmap <F9> :GV<CR>
 
 Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-overwin-f2)'}
 nmap f <Plug>(easymotion-overwin-f2)
@@ -175,13 +177,9 @@ autocmd FileType c set sw=4 |
 			\ set tw=80 |
 			\ set noet |
 			\ set nosta
-autocmd FileType javascript set et |
+autocmd FileType html,css,javascript set et |
 			\ set sta |
 			\ set sts=4 |
-			\ set sw=4 |
-			\ set ts=4
-autocmd FileType html,css set noet |
-			\ set nosta |
 			\ set sw=4 |
 			\ set ts=4
 set sw=4
