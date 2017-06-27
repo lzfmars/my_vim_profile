@@ -18,7 +18,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'gmarik/Vundle.vim'
 
 " plugin in github
-Plug 'cscope.vim', {'for': ['c', 'python']}
+Plug 'lzfmars/cscope.vim', {'for': ['c', 'python']}
 autocmd FileType python let g:cscope_cmd = '/usr/local/bin/pycscope' |
 			\ let g:cscope_ignore_files = '.*[^\.][^p][^y]$' |
 			\ let g:cscope_lang = 'python'
@@ -92,7 +92,8 @@ let g:ycm_semantic_triggers = {
 augroup load_us_ycm
 	autocmd!
 	autocmd InsertEnter * call plug#load('YouCompleteMe')
-						\| autocmd! load_us_ycm
+				\| call youcompleteme#Enable()
+				\| autocmd! load_us_ycm
 augroup END
 
 Plug 'dyng/ctrlsf.vim', {'on': ['<Plug>CtrlSFPrompt', '<Plug>CtrlSFVwordExec', '<Plug>CtrlSFCwordExec', 'CtrlSFToggle']}
@@ -108,6 +109,8 @@ nmap <C-p> :FZF<CR>
 Plug 'junegunn/fzf.vim'
 nmap <C-l> :Tags<CR>
 nmap <C-k> :BTags<CR>
+nmap <C-a> :Ag 
+nmap <C-z> :Marks<CR>
 
 Plug 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
@@ -141,6 +144,9 @@ map <leader>v <Plug>(Vman)
 Plug 'w0rp/ale', {'for': 'python'}
 let g:airline#extensions#ale#enabled = 0
 let g:ale_set_loclist = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 1
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
