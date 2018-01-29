@@ -101,7 +101,7 @@ nmap gs <Plug>CtrlSFPrompt
 vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
-let g:ctrlsf_default_root = 'project'
+let g:ctrlsf_default_root = 'project+fw'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
 nmap <C-p> :FZF<CR>
@@ -110,7 +110,7 @@ Plug 'junegunn/fzf.vim'
 nmap <C-l> :Tags<CR>
 nmap <C-k> :BTags<CR>
 nmap <C-a> :Ag 
-nmap <C-z> :Marks<CR>
+nmap <C-z> :Commits<CR>
 
 Plug 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
