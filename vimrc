@@ -5,6 +5,7 @@ set nocompatible              " be iMproved, required
 let g:lang = ''
 autocmd FileType python let g:lang = 'python'
 autocmd FileType c let g:lang = 'c'
+autocmd FileType cpp let g:lang = 'cpp'
 filetype detect
 
 
@@ -18,19 +19,25 @@ call plug#begin('~/.vim/plugged')
 " Plug 'gmarik/Vundle.vim'
 
 " plugin in github
-Plug 'lzfmars/cscope.vim', {'for': ['c', 'python']}
+Plug 'lzfmars/cscope.vim', {'for': ['c', 'cpp', 'python']}
 autocmd FileType python let g:cscope_cmd = '/usr/local/bin/pycscope' |
 			\ let g:cscope_ignore_files = '.*[^\.][^p][^y]$' |
 			\ let g:cscope_lang = 'python'
 autocmd FileType c let g:cscope_cmd = '/usr/bin/cscope' |
 			\ let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$' |
 			\ let g:cscope_lang = 'c'
+autocmd FileType cpp let g:cscope_cmd = '/usr/bin/cscope' |
+			\ let g:cscope_ignore_files = '.*[^\.][^ch][^p]?[^p]?$' |
+			\ let g:cscope_lang = 'c'
 if g:lang == 'python'
 	let g:cscope_cmd = '/usr/local/bin/pycscope'
 	let g:cscope_ignore_files = '.*[^\.][^p][^y]$'
 	let g:cscope_lang = 'python'
-else
+elseif g:lang == 'c'
 	let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$'
+	let g:cscope_lang = 'c'
+else
+	let g:cscope_ignore_files = '.*[^\.][^ch][^p]?[^p]?$'
 	let g:cscope_lang = 'c'
 endif
 let g:cscope_open_location = 0
@@ -81,14 +88,14 @@ let g:solarized_contrast = "high"
 let g:solarized_visibility = "high"
 
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
-let g:ycm_global_ycm_extra_conf = '/home/mars/linux/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_semantic_triggers = {
-    \   'css': [ 're!^\s{4}', 're!:\s+'],
-    \   'html': [ '<', '</' ],
-    \ }
+	\   'css': [ 're!^\s{4}', 're!:\s+'],
+	\   'html': [ '<', '</' ],
+	\ }
 augroup load_us_ycm
 	autocmd!
 	autocmd InsertEnter * call plug#load('YouCompleteMe')
@@ -102,6 +109,8 @@ vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
 let g:ctrlsf_default_root = 'project+fw'
+let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_ackprg = 'rg'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
 nmap <C-p> :FZF<CR>
@@ -109,8 +118,16 @@ nmap <C-p> :FZF<CR>
 Plug 'junegunn/fzf.vim'
 nmap <C-l> :Tags<CR>
 nmap <C-k> :BTags<CR>
-nmap <C-a> :Ag 
+nmap <C-a> :Rg 
 nmap <C-z> :Commits<CR>
+nmap <C-h> :History<CR>
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 Plug 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
@@ -137,7 +154,7 @@ let g:EasyMotion_verbose = 0
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 
-Plug 'vim-utils/vim-man', {'for': 'c', 'on': ['<Plug>Man', '<Plug>Vman']}
+Plug 'vim-utils/vim-man', {'for': ['c', 'cpp'], 'on': ['<Plug>Man', '<Plug>Vman']}
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
@@ -147,6 +164,7 @@ let g:ale_set_loclist = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 1
+let g:ale_python_flake8_options = '--ignore=E,W,F403,F405 --select=F,C'
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
@@ -178,7 +196,7 @@ autocmd FileType python set et |
 			\ set sw=4 |
 			\ set ts=4 |
 			\ set tw=79
-autocmd FileType c set sw=4 |
+autocmd FileType c,cpp set sw=4 |
 			\ set ts=4 |
 			\ set tw=80 |
 			\ set noet |
@@ -187,7 +205,8 @@ autocmd FileType html,css,javascript set et |
 			\ set sta |
 			\ set sts=4 |
 			\ set sw=4 |
-			\ set ts=4
+			\ set ts=4 |
+			\ set tw&
 set sw=4
 set ts=4
 " endif
@@ -200,8 +219,11 @@ set backspace=indent,eol,start
 set writebackup
 set nobackup
 
-set enc=utf-8
-set fenc=utf-8
+" set fileencodings=utf-8,ucs-bom,gbk,gb2312,gb18030,cp936
+set fileencodings=utf-8
+set termencoding=utf-8
+set encoding=utf-8
+
 let g:c_syntax_for_h = 1
 set foldlevelstart=99
 
