@@ -194,19 +194,19 @@ autocmd FileType python set et |
 			\ set sta |
 			\ set sts=4 |
 			\ set sw=4 |
-			\ set ts=4 |
-			\ set tw=79
+			\ set cc=80 |
+			\ set ts=4
 autocmd FileType c,cpp set sw=4 |
 			\ set ts=4 |
-			\ set tw=80 |
 			\ set noet |
+			\ set cc=81 |
 			\ set nosta
 autocmd FileType html,css,javascript set et |
 			\ set sta |
 			\ set sts=4 |
 			\ set sw=4 |
-			\ set ts=4 |
-			\ set tw&
+			\ set cc& |
+			\ set ts=4
 set sw=4
 set ts=4
 " endif
