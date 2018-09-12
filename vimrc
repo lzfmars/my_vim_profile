@@ -12,56 +12,44 @@ filetype detect
 " set the runtime path to include Vundle and initialize
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-" Plug 'gmarik/Vundle.vim'
 
 " plugin in github
-Plug 'lzfmars/cscope.vim', {'for': ['c', 'cpp', 'python']}
-autocmd FileType python let g:cscope_cmd = '/usr/local/bin/pycscope' |
-			\ let g:cscope_ignore_files = '.*[^\.][^p][^y]$' |
-			\ let g:cscope_lang = 'python'
-autocmd FileType c let g:cscope_cmd = '/usr/bin/cscope' |
-			\ let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$' |
-			\ let g:cscope_lang = 'c'
-autocmd FileType cpp let g:cscope_cmd = '/usr/bin/cscope' |
-			\ let g:cscope_ignore_files = '.*[^\.][^ch][^p]?[^p]?$' |
-			\ let g:cscope_lang = 'c'
-if g:lang == 'python'
-	let g:cscope_cmd = '/usr/local/bin/pycscope'
-	let g:cscope_ignore_files = '.*[^\.][^p][^y]$'
-	let g:cscope_lang = 'python'
-elseif g:lang == 'c'
-	let g:cscope_ignore_files = '.*[^ch]$\|.*[^\.].$'
-	let g:cscope_lang = 'c'
-else
-	let g:cscope_ignore_files = '.*[^\.][^ch][^p]?[^p]?$'
-	let g:cscope_lang = 'c'
-endif
-let g:cscope_open_location = 0
-let g:cscope_ignore_strict = 0
-let g:cscope_silent = 1
-nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
-nnoremap <leader>l :call ToggleLocationList()<CR>
-nnoremap <leader>o <CR>zz:lop<CR>
-" s: Find this C symbol
-nnoremap  <leader>fs :call cscope#find('s', expand('<cword>'))<CR>
-" g: Find this definition
-nnoremap  <leader>fg :call cscope#find('g', expand('<cword>'))<CR>
-" d: Find functions called by this function
-nnoremap  <leader>fd :call cscope#find('d', expand('<cword>'))<CR>
-" c: Find functions calling this function
-nnoremap  <leader>fc :call cscope#find('c', expand('<cword>'))<CR>
-" t: Find this text string
-nnoremap  <leader>ft :call cscope#find('t', expand('<cword>'))<CR>
-" e: Find this egrep pattern
-nnoremap  <leader>fe :call cscope#find('e', expand('<cword>'))<CR>
-" f: Find this file
-nnoremap  <leader>ff :call cscope#find('f', expand('<cword>'))<CR>
-" i: Find files #including this file
-nnoremap  <leader>fi :call cscope#find('i', expand('<cword>'))<CR>
+Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'skywind3000/gutentags_plus'
+let $GTAGSLABEL = 'native-pygments'
+let $GTAGSCONF = '/etc/gtags.conf'
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+" config project root markers.
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+" 配置 ctags 的参数
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+" forbid gutentags adding gtags databases
+let g:gutentags_auto_add_gtags_cscope = 0
+
+let g:gutentags_plus_nomap = 1
+noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr>
+noremap <silent> <leader>fg :GscopeFind g <C-R><C-W><cr>
+noremap <silent> <leader>fc :GscopeFind c <C-R><C-W><cr>
+noremap <silent> <leader>ft :GscopeFind t <C-R><C-W><cr>
+noremap <silent> <leader>fe :GscopeFind e <C-R><C-W><cr>
+noremap <silent> <leader>ff :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
+noremap <silent> <leader>fi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
+noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
+noremap <silent> <leader>fa :GscopeFind a <C-R><C-W><cr>
+
+Plug 'skywind3000/vim-preview'
+"P 预览 大p关闭
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+noremap <leader>u :PreviewScroll -1<cr>
+noremap <leader>d :PreviewScroll +1<cr>
+noremap <leader>l :ccl<cr>
 
 Plug 'bling/vim-airline'
 set laststatus=2
@@ -109,7 +97,7 @@ vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
 let g:ctrlsf_default_root = 'project+fw'
-let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_search_mode = 'sync'
 let g:ctrlsf_ackprg = 'rg'
 
 Plug 'junegunn/fzf', { 'do': './install --all' }
@@ -187,6 +175,8 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+Plug 'sheerun/vim-polyglot'
+
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 
@@ -243,3 +233,5 @@ augroup resCur
   autocmd!
   autocmd BufReadPost * call setpos(".", getpos("'\""))
 augroup END
+
+nmap <F12> :term<CR>
