@@ -33,15 +33,15 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 let g:gutentags_auto_add_gtags_cscope = 0
 
 let g:gutentags_plus_nomap = 1
-noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr>
-noremap <silent> <leader>fg :GscopeFind g <C-R><C-W><cr>
-noremap <silent> <leader>fc :GscopeFind c <C-R><C-W><cr>
-noremap <silent> <leader>ft :GscopeFind t <C-R><C-W><cr>
-noremap <silent> <leader>fe :GscopeFind e <C-R><C-W><cr>
-noremap <silent> <leader>ff :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
-noremap <silent> <leader>fi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
-noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
-noremap <silent> <leader>fa :GscopeFind a <C-R><C-W><cr>
+noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>fg :GscopeFind g <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>fc :GscopeFind c <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>ft :GscopeFind t <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>fe :GscopeFind e <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>ff :GscopeFind f <C-R>=expand("<cfile>")<cr><cr><C-W>jj
+noremap <silent> <leader>fi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr><C-W>jj
+noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>fa :GscopeFind a <C-R><C-W><cr><C-W>jj
 
 Plug 'skywind3000/vim-preview'
 "P 预览 大p关闭
@@ -70,10 +70,10 @@ Plug 'altercation/vim-colors-solarized'
 syntax on
 set background=dark
 set t_Co=256
-let g:solarized_termcolors = 256
+let g:solarized_termcolors = 16
 let g:solarized_termtrans = 1
-let g:solarized_contrast = "high"
-let g:solarized_visibility = "high"
+let g:solarized_contrast = "normal"
+let g:solarized_visibility = "normal"
 
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
