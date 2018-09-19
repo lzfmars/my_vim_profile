@@ -33,15 +33,15 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 let g:gutentags_auto_add_gtags_cscope = 0
 
 let g:gutentags_plus_nomap = 1
-noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr><C-W>jj
-noremap <silent> <leader>fg :GscopeFind g <C-R><C-W><cr><C-W>jj
-noremap <silent> <leader>fc :GscopeFind c <C-R><C-W><cr><C-W>jj
-noremap <silent> <leader>ft :GscopeFind t <C-R><C-W><cr><C-W>jj
-noremap <silent> <leader>fe :GscopeFind e <C-R><C-W><cr><C-W>jj
-noremap <silent> <leader>ff :GscopeFind f <C-R>=expand("<cfile>")<cr><cr><C-W>jj
-noremap <silent> <leader>fi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr><C-W>jj
-noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr><C-W>jj
-noremap <silent> <leader>fa :GscopeFind a <C-R><C-W><cr><C-W>jj
+noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr><C-W>j
+noremap <silent> <leader>fg :GscopeFind g <C-R><C-W><cr><C-W>j
+noremap <silent> <leader>fc :GscopeFind c <C-R><C-W><cr><C-W>j
+noremap <silent> <leader>ft :GscopeFind t <C-R><C-W><cr><C-W>j
+noremap <silent> <leader>fe :GscopeFind e <C-R><C-W><cr><C-W>j
+noremap <silent> <leader>ff :GscopeFind f <C-R>=expand("<cfile>")<cr><cr><C-W>j
+noremap <silent> <leader>fi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr><C-W>j
+noremap <silent> <leader>fd :GscopeFind d <C-R><C-W><cr><C-W>j
+noremap <silent> <leader>fa :GscopeFind a <C-R><C-W><cr><C-W>j
 
 Plug 'skywind3000/vim-preview'
 "P 预览 大p关闭
@@ -62,6 +62,9 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#fugitiveline#enabled = 1
+let g:airline#extensions#gutentags#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = "solarized"
@@ -80,10 +83,15 @@ let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_p
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_semantic_triggers = {
-	\   'css': [ 're!^\s{4}', 're!:\s+'],
-	\   'html': [ '<', '</' ],
-	\ }
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_disable_for_files_larger_than_kb = 10240
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\   'html': [ '<', '</' ],
+			\ }
+set completeopt=menu,menuone
+let g:ycm_add_preview_to_completeopt = 1
 augroup load_us_ycm
 	autocmd!
 	autocmd InsertEnter * call plug#load('YouCompleteMe')
