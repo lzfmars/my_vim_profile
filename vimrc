@@ -64,7 +64,6 @@ let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#fugitiveline#enabled = 1
 let g:airline#extensions#gutentags#enabled = 1
-let g:airline#extensions#ale#enabled = 1
 
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = "solarized"
@@ -78,13 +77,15 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "normal"
 let g:solarized_visibility = "normal"
 
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'on': []}
-let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --all', 'on': []}
+let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_disable_for_files_larger_than_kb = 10240
+let g:ycm_cache_omnifunc = 1
 let g:ycm_semantic_triggers =  {
 			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
 			\ 'cs,lua,javascript': ['re!\w{2}'],
@@ -242,4 +243,4 @@ augroup resCur
   autocmd BufReadPost * call setpos(".", getpos("'\""))
 augroup END
 
-nmap <F12> :term<CR>
+nmap <F4> :term<CR>
