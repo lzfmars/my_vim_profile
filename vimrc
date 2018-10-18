@@ -26,7 +26,7 @@ let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 " generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 " 配置 ctags 的参数
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--fields=+niazSl', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 " forbid gutentags adding gtags databases
@@ -77,7 +77,7 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "normal"
 let g:solarized_visibility = "normal"
 
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --all', 'on': []}
+Plug 'Valloric/YouCompleteMe', {'do': 'python3 install.py --all', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
@@ -85,6 +85,7 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_disable_for_files_larger_than_kb = 10240
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 let g:ycm_cache_omnifunc = 1
 let g:ycm_semantic_triggers =  {
 			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
@@ -109,10 +110,9 @@ let g:ctrlsf_default_root = 'project+fw'
 let g:ctrlsf_search_mode = 'sync'
 let g:ctrlsf_ackprg = 'rg'
 
-Plug 'junegunn/fzf', { 'do': './install --all' }
-nmap <C-p> :FZF<CR>
-
+Plug 'junegunn/fzf', { 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
+nmap <C-p> :FZF<CR>
 nmap <C-l> :Tags<CR>
 nmap <C-k> :BTags<CR>
 nmap <C-a> :Rg 
@@ -126,7 +126,7 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_autoclose = 1
@@ -135,14 +135,14 @@ Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
 
-Plug  'ianva/vim-youdao-translater'
+Plug  'ianva/vim-youdao-translater', {'on': ['Ydv', 'Ydc', 'Yde']}
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 
 Plug 'tpope/vim-fugitive'
 
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 nmap <F9> :GV<CR>
 
 Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-overwin-f2)'}
@@ -170,7 +170,9 @@ Plug 'fs111/pydoc.vim', {'for': 'python'}
 let g:pydoc_open_cmd = 'vsplit'
 let g:pydoc_highlight = 0
 
-Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch.vim', {'on': ['<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)', '<Plug>(incsearch-stay)',
+										\'<Plug>(incsearch-nohl-n)', '<Plug>(incsearch-nohl-N)', '<Plug>(incsearch-nohl-*)',
+										\'<Plug>(incsearch-nohl-#)', '<Plug>(incsearch-nohl-g*)', '<Plug>(incsearch-nohl-g#)']}
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
