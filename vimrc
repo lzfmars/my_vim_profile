@@ -2,10 +2,6 @@
 filetype plugin indent on
 
 set nocompatible              " be iMproved, required
-let g:lang = ''
-autocmd FileType python let g:lang = 'python'
-autocmd FileType c let g:lang = 'c'
-autocmd FileType cpp let g:lang = 'cpp'
 filetype detect
 
 
@@ -29,6 +25,7 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 let g:gutentags_ctags_extra_args = ['--fields=+niazSl', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " forbid gutentags adding gtags databases
 let g:gutentags_auto_add_gtags_cscope = 0
 
@@ -77,7 +74,7 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "normal"
 let g:solarized_visibility = "normal"
 
-Plug 'Valloric/YouCompleteMe', {'do': 'python3 install.py --all', 'on': []}
+Plug 'Valloric/YouCompleteMe', {'do': 'python3.7 install.py --all', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_key_invoke_completion = '<C-X>'
@@ -85,7 +82,7 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_disable_for_files_larger_than_kb = 10240
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_server_python_interpreter = '/usr/bin/python3.7'
 let g:ycm_cache_omnifunc = 1
 let g:ycm_semantic_triggers =  {
 			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
@@ -107,7 +104,10 @@ vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
 let g:ctrlsf_default_root = 'project+fw'
-let g:ctrlsf_search_mode = 'sync'
+let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_auto_focus = {
+  \ "at": "start"
+  \ }
 let g:ctrlsf_ackprg = 'rg'
 
 Plug 'junegunn/fzf', { 'do': './install --all'}
@@ -118,13 +118,6 @@ nmap <C-k> :BTags<CR>
 nmap <C-a> :Rg 
 nmap <C-z> :Commits<CR>
 nmap <C-h> :History<CR>
-" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
 
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 nmap <F8> :TagbarToggle<CR>
@@ -162,6 +155,7 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 1
 let g:ale_python_flake8_options = '--ignore=E,W,F403,F405 --select=F,C'
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
@@ -246,3 +240,6 @@ augroup resCur
 augroup END
 
 nmap <F4> :term<CR>
+
+let g:omni_sql_no_default_maps = 1
+let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
