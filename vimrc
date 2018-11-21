@@ -103,12 +103,13 @@ nmap gs <Plug>CtrlSFPrompt
 vmap ga <Plug>CtrlSFVwordExec
 nmap ga <Plug>CtrlSFCwordExec
 noremap gc <Esc>:CtrlSFToggle<CR>
-let g:ctrlsf_default_root = 'project+fw'
+let g:ctrlsf_default_root = 'project'
 let g:ctrlsf_search_mode = 'async'
 let g:ctrlsf_auto_focus = {
   \ "at": "start"
   \ }
 let g:ctrlsf_ackprg = 'rg'
+let g:ctrlsf_extra_root_markers = ['.root']
 
 Plug 'junegunn/fzf', { 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
@@ -181,6 +182,9 @@ map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
 Plug 'sheerun/vim-polyglot'
+
+Plug 'airblade/vim-rooter'
+let g:rooter_silent_chdir = 1
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
