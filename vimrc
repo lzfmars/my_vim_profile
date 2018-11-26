@@ -149,7 +149,7 @@ Plug 'vim-utils/vim-man', {'for': ['c', 'cpp'], 'on': ['<Plug>Man', '<Plug>Vman'
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
-Plug 'w0rp/ale', {'for': 'python'}
+Plug 'w0rp/ale'
 let g:airline#extensions#ale#enabled = 0
 let g:ale_set_loclist = 0
 let g:ale_lint_on_save = 1
@@ -157,8 +157,16 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 1
 let g:ale_python_flake8_options = '--ignore=E,W,F403,F405 --select=F,C'
 let g:ale_linters_explicit = 1
+let g:ale_linter_aliases = {
+\	'mako': ['html'],
+\}
 let g:ale_linters = {
 \   'python': ['flake8'],
+\   'html': ['htmlhint'],
+\   'mako': ['htmlhint'],
+\   'c': ['cppcheck'],
+\   'cpp': ['cppcheck'],
+\   'h': ['cppcheck'],
 \}
 
 Plug 'fs111/pydoc.vim', {'for': 'python'}
@@ -185,6 +193,9 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'airblade/vim-rooter'
 let g:rooter_silent_chdir = 1
+
+Plug 'Yggdroot/indentLine'
+let g:indentLine_color_dark = 1
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -223,7 +234,7 @@ set fileencodings=utf-8
 set termencoding=utf-8
 set encoding=utf-8
 
-let g:c_syntax_for_h = 1
+let g:c_syntax_for_h = 0
 set foldlevelstart=99
 
 map <leader>y "+y
@@ -243,7 +254,7 @@ augroup resCur
   autocmd BufReadPost * call setpos(".", getpos("'\""))
 augroup END
 
-nmap <F4> :term<CR>
+nmap <F4> :vert term<CR>
 
 let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
