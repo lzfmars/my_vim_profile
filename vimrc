@@ -29,6 +29,8 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " forbid gutentags adding gtags databases
 let g:gutentags_auto_add_gtags_cscope = 0
 
+" let g:gutentags_define_advanced_commands = 1
+
 let g:gutentags_plus_nomap = 1
 noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr><C-W>j
 noremap <silent> <leader>fg :GscopeFind g <C-R><C-W><cr><C-W>j
@@ -197,6 +199,8 @@ let g:rooter_silent_chdir = 1
 Plug 'Yggdroot/indentLine'
 let g:indentLine_color_dark = 1
 
+Plug 'hesselbom/vim-hsftp'
+
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 
@@ -258,3 +262,5 @@ nmap <F4> :vert term<CR>
 
 let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
+
+py3 sys.dont_write_bytecode = True
