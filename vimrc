@@ -198,6 +198,7 @@ let g:rooter_silent_chdir = 1
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_color_dark = 1
+let g:indentLine_fileTypeExclude = ['']
 
 Plug 'hesselbom/vim-hsftp'
 
@@ -264,3 +265,4 @@ let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 py3 sys.dont_write_bytecode = True
+
