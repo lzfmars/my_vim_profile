@@ -76,6 +76,7 @@ let g:solarized_termtrans = 1
 let g:solarized_contrast = "normal"
 let g:solarized_visibility = "normal"
 
+if !has("nvim")
 Plug 'Valloric/YouCompleteMe', {'do': 'python3.7 install.py --all', 'on': []}
 let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
@@ -99,6 +100,47 @@ augroup load_us_ycm
 				\| call youcompleteme#Enable()
 				\| autocmd! load_us_ycm
 augroup END
+else
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" if hidden is not set, TextEdit might fail.
+set hidden
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+" Use tab for trigger completion with characters ahead and navigate.
+" " Use command ':verbose imap <tab>' to make sure tab is not mapped by other
+" plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+endif
 
 Plug 'dyng/ctrlsf.vim', {'on': ['<Plug>CtrlSFPrompt', '<Plug>CtrlSFVwordExec', '<Plug>CtrlSFCwordExec', 'CtrlSFToggle']}
 nmap gs <Plug>CtrlSFPrompt
@@ -171,9 +213,11 @@ let g:ale_linters = {
 \   'h': ['cppcheck'],
 \}
 
+if !has("nvim")
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 let g:pydoc_open_cmd = 'vsplit'
 let g:pydoc_highlight = 0
+endif
 
 Plug 'haya14busa/incsearch.vim', {'on': ['<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)', '<Plug>(incsearch-stay)',
 										\'<Plug>(incsearch-nohl-n)', '<Plug>(incsearch-nohl-N)', '<Plug>(incsearch-nohl-*)',
@@ -265,4 +309,3 @@ let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 py3 sys.dont_write_bytecode = True
-
