@@ -29,7 +29,7 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " forbid gutentags adding gtags databases
 let g:gutentags_auto_add_gtags_cscope = 0
 
-" let g:gutentags_define_advanced_commands = 1
+let g:gutentags_define_advanced_commands = 1
 
 let g:gutentags_plus_nomap = 1
 noremap <silent> <leader>fs :GscopeFind s <C-R><C-W><cr><C-W>j
@@ -100,6 +100,7 @@ augroup load_us_ycm
 				\| call youcompleteme#Enable()
 				\| autocmd! load_us_ycm
 augroup END
+
 else
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " if hidden is not set, TextEdit might fail.
@@ -109,7 +110,7 @@ set updatetime=300
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 " always show signcolumns
-set signcolumn=yes
+" set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " " Use command ':verbose imap <tab>' to make sure tab is not mapped by other
 " plugin.
@@ -309,3 +310,7 @@ let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 py3 sys.dont_write_bytecode = True
+
+if has('nvim')
+    set clipboard+=unnamedplus
+endif
