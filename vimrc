@@ -65,16 +65,13 @@ let g:airline#extensions#fugitiveline#enabled = 1
 let g:airline#extensions#gutentags#enabled = 1
 
 Plug 'vim-airline/vim-airline-themes'
-let g:airline_theme = "solarized"
+let g:airline_theme = "gruvbox"
 
-Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
 syntax on
 set background=dark
 set t_Co=256
-let g:solarized_termcolors = 16
-let g:solarized_termtrans = 1
-let g:solarized_contrast = "normal"
-let g:solarized_visibility = "normal"
+let g:gruvbox_contrast_dark = 'soft'
 
 if !has("nvim")
 Plug 'Valloric/YouCompleteMe', {'do': 'python3.7 install.py --all', 'on': []}
@@ -174,7 +171,7 @@ Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
 
-Plug  'ianva/vim-youdao-translater', {'on': ['Ydv', 'Ydc', 'Yde']}
+Plug  'ianva/vim-youdao-translater', {'tag': '2.5.1', 'on': ['Ydv', 'Ydc', 'Yde']}
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
@@ -293,7 +290,7 @@ map <leader>p "+p
 nnoremap s <nop>
 
 " enable colorscheme
-colorscheme solarized
+colorscheme gruvbox
 
 " netrw settings
 let g:netrw_preview = 1
