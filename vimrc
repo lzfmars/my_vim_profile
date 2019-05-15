@@ -99,7 +99,7 @@ augroup load_us_ycm
 augroup END
 
 else
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Smaller updatetime for CursorHold & CursorHoldI
@@ -162,10 +162,12 @@ nmap <C-a> :Rg
 nmap <C-z> :Commits<CR>
 nmap <C-h> :History<CR>
 
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
-nmap <F8> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
+Plug 'liuchengxu/vista.vim'
+nmap <F8> :Vista<CR>
+let g:vista_close_on_jump = 1
+let g:vista_default_executive = 'ctags'
+" let g:vista_fzf_preview = ['right:50%']
+let g:vista#renderer#enable_icon = 0
 
 Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
