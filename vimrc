@@ -156,14 +156,17 @@ let g:ctrlsf_extra_root_markers = ['.root']
 Plug 'junegunn/fzf', { 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
 nmap <C-p> :FZF<CR>
-nmap <C-l> :Tags<CR>
+" nmap <C-l> :Tags<CR>
 nmap <C-k> :BTags<CR>
 nmap <C-a> :Rg 
 nmap <C-z> :Commits<CR>
 nmap <C-h> :History<CR>
 
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+noremap <C-l> :<C-U>Leaderf --reverse tag<CR>
+
 Plug 'liuchengxu/vista.vim'
-nmap <F8> :Vista<CR>
+nmap <F8> :Vista!!<CR>
 let g:vista_close_on_jump = 1
 let g:vista_default_executive = 'ctags'
 " let g:vista_fzf_preview = ['right:50%']
