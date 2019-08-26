@@ -1,4 +1,7 @@
 " My vim settings
+let g:python_host_skip_check = 1
+let g:python3_host_skip_check = 1
+
 filetype plugin indent on
 
 set nocompatible              " be iMproved, required
@@ -57,7 +60,7 @@ set ttimeoutlen=50
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#branch#enabled = 1
@@ -73,32 +76,6 @@ set background=dark
 set t_Co=256
 let g:gruvbox_contrast_dark = 'soft'
 
-if !has("nvim")
-Plug 'Valloric/YouCompleteMe', {'do': 'python3.7 install.py --all', 'on': []}
-let g:ycm_global_ycm_extra_conf = '/home/mars/.vim/plugged/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_key_invoke_completion = '<C-X>'
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_disable_for_files_larger_than_kb = 10240
-let g:ycm_server_python_interpreter = '/usr/bin/python3.7'
-let g:ycm_cache_omnifunc = 1
-let g:ycm_semantic_triggers =  {
-			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-			\ 'cs,lua,javascript': ['re!\w{2}'],
-			\   'html': [ '<', '</' ],
-			\ }
-set completeopt=menu,menuone
-let g:ycm_add_preview_to_completeopt = 1
-augroup load_us_ycm
-	autocmd!
-	autocmd InsertEnter * call plug#load('YouCompleteMe')
-				\| call youcompleteme#Enable()
-				\| autocmd! load_us_ycm
-augroup END
-
-else
 Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -138,7 +115,6 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
-endif
 
 Plug 'dyng/ctrlsf.vim', {'on': ['<Plug>CtrlSFPrompt', '<Plug>CtrlSFVwordExec', '<Plug>CtrlSFCwordExec', 'CtrlSFToggle']}
 nmap gs <Plug>CtrlSFPrompt
@@ -212,12 +188,6 @@ let g:ale_linters = {
 \   'cpp': ['cppcheck'],
 \   'h': ['cppcheck'],
 \}
-
-if !has("nvim")
-Plug 'fs111/pydoc.vim', {'for': 'python'}
-let g:pydoc_open_cmd = 'vsplit'
-let g:pydoc_highlight = 0
-endif
 
 Plug 'haya14busa/incsearch.vim', {'on': ['<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)', '<Plug>(incsearch-stay)',
 										\'<Plug>(incsearch-nohl-n)', '<Plug>(incsearch-nohl-N)', '<Plug>(incsearch-nohl-*)',
@@ -308,8 +278,9 @@ nmap <F4> :vert term<CR>
 let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
-py3 sys.dont_write_bytecode = True
+" py3 sys.dont_write_bytecode = True
 
 if has('nvim')
-    set clipboard+=unnamedplus
+	set clipboard+=unnamedplus
+	set noshowcmd noruler
 endif
