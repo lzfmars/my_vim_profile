@@ -149,7 +149,7 @@ Plug 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
 
-Plug  'ianva/vim-youdao-translater', {'tag': '2.5.1', 'on': ['Ydv', 'Ydc', 'Yde']}
+Plug  'ianva/vim-youdao-translater', {'on': ['Ydv', 'Ydc', 'Yde']}
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
@@ -256,6 +256,12 @@ set encoding=utf-8
 let g:c_syntax_for_h = 0
 set foldlevelstart=99
 
+" if !has('nvim')
+	set backupdir=~/.vim/backup//
+	set directory=~/.vim/swap//
+	set undodir=~/.vim/undo//
+" endif
+
 map <leader>y "+y
 map <leader>p "+p
 
@@ -280,7 +286,7 @@ let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 " py3 sys.dont_write_bytecode = True
 
-if has('nvim')
-	set clipboard+=unnamedplus
-	set noshowcmd noruler
-endif
+" if has('nvim')
+	" set clipboard+=unnamedplus
+	" set noshowcmd noruler
+" endif
