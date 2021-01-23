@@ -25,7 +25,7 @@ let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 " generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 " 配置 ctags 的参数
-let g:gutentags_ctags_extra_args = ['--fields=+niazSl', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--fields=+niazSl', '--extras=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
@@ -45,6 +45,9 @@ noremap <silent> <leader>fi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr><C-W>j
 noremap <silent> <leader>fd :GscopeFind d <C-R><C-W><cr><C-W>j
 noremap <silent> <leader>fa :GscopeFind a <C-R><C-W><cr><C-W>j
 
+" let g:gutentags_trace = 1
+" let g:gutentags_define_advanced_commands = 1
+
 Plug 'skywind3000/vim-preview'
 "P 预览 大p关闭
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
@@ -62,10 +65,12 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#fugitiveline#enabled = 1
 let g:airline#extensions#gutentags#enabled = 1
+let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#vista#enabled = 1
+let g:airline#extensions#ale#enabled = 0
 
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = "gruvbox"
@@ -76,7 +81,7 @@ set background=dark
 set t_Co=256
 let g:gruvbox_contrast_dark = 'soft'
 
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Smaller updatetime for CursorHold & CursorHoldI
@@ -131,21 +136,14 @@ let g:ctrlsf_extra_root_markers = ['.root']
 
 Plug 'junegunn/fzf', { 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
+Plug 'kg8m/vim-fzf-tjump'
 nmap <C-p> :FZF<CR>
-nmap <C-l> :Tags<CR>
-nmap <C-k> :BTags<CR>
+nmap <C-l> :Tjump 
+nmap <C-g> :Tags<CR>
+nmap <C-.> :BTags<CR>
 nmap <C-a> :Rg 
 nmap <C-z> :Commits<CR>
-nmap <C-h> :History<CR>
-
-function! RipgrepFzf(query, fullscreen)
-	let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-	let initial_command = printf(command_fmt, shellescape(a:query))
-	let reload_command = printf(command_fmt, '{q}')
-	let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-	call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+nmap <C-/> :History<CR>
 
 Plug 'liuchengxu/vista.vim'
 nmap <F8> :Vista!!<CR>
@@ -179,7 +177,6 @@ map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
 Plug 'w0rp/ale'
-let g:airline#extensions#ale#enabled = 0
 let g:ale_set_loclist = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
@@ -218,12 +215,11 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'airblade/vim-rooter'
 let g:rooter_silent_chdir = 1
+let g:rooter_patterns = ['.root', '.svn', '.git', '.hg', '.project']
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_color_dark = 1
 let g:indentLine_fileTypeExclude = ['']
-
-Plug 'hesselbom/vim-hsftp'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -234,11 +230,12 @@ autocmd FileType python set et |
 			\ set sw=4 |
 			\ set cc=80 |
 			\ set ts=4
-autocmd FileType c,cpp set sw=4 |
-			\ set ts=4 |
-			\ set noet |
+autocmd FileType c,cpp set sw=2 |
+			\ set ts=2 |
+			\ set sts=2 |
+			\ set et |
 			\ set cc=81 |
-			\ set nosta
+			\ set sta
 autocmd FileType html,css,javascript set et |
 			\ set sta |
 			\ set sts=4 |
@@ -262,7 +259,7 @@ set fileencodings=utf-8
 set termencoding=utf-8
 set encoding=utf-8
 
-let g:c_syntax_for_h = 0
+" let g:c_syntax_for_h = 0
 set foldlevelstart=99
 
 " if !has('nvim')
@@ -299,3 +296,6 @@ let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 	" set clipboard+=unnamedplus
 	" set noshowcmd noruler
 " endif
+set clipboard=unnamed
+
+au! BufNewFile,BufRead *.cc setf cpp
