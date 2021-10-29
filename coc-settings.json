@@ -1,17 +1,5 @@
 {
   "languageserver": {
-  	"ccls": {
-  	  "command": "ccls",
-  	  "filetypes": ["c", "cpp", "objc", "objcpp"],
-  	  "rootPatterns": [".ccls", "compile_commands.json", ".root", ".vim/", ".git/", ".hg/"],
-  	  "initializationOptions": {
-  	    "cache": {
-  	      "directory": "/tmp/ccls"
-  	    }
-  	  }
-	}
-  },
-  "languageserver": {
   	"golang": {
   	  "command": "~/go/bin/gopls",
   	  "filetypes": ["go"],
@@ -24,5 +12,5 @@
 
   "python.linting.enabled": false,
   "python.pythonPath": "python3",
-  "diagnostic.enable": false
+  "diagnostic.enable": false,
 }
