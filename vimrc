@@ -81,7 +81,7 @@ set background=dark
 set t_Co=256
 let g:gruvbox_contrast_dark = 'soft'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Smaller updatetime for CursorHold & CursorHoldI
@@ -94,9 +94,9 @@ set shortmess+=c
 " " Use command ':verbose imap <tab>' to make sure tab is not mapped by other
 " plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+	  \ pumvisible() ? "\<C-n>" :
+	  \ <SID>check_back_space() ? "\<TAB>" :
+	  \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -108,9 +108,9 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
+	execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+	call CocAction('doHover')
   endif
 endfunction
 augroup mygroup
@@ -120,6 +120,12 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
+" Use <C-l> for trigger snippet expand.
+" imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+" vmap <C-j> <Plug>(coc-snippets-select)
 
 Plug 'dyng/ctrlsf.vim', {'on': ['<Plug>CtrlSFPrompt', '<Plug>CtrlSFVwordExec', '<Plug>CtrlSFCwordExec', 'CtrlSFToggle']}
 nmap gs <Plug>CtrlSFPrompt
@@ -136,10 +142,10 @@ let g:ctrlsf_extra_root_markers = ['.root']
 
 Plug 'junegunn/fzf', { 'do': './install --all'}
 Plug 'junegunn/fzf.vim'
-Plug 'kg8m/vim-fzf-tjump'
+" Plug 'kg8m/vim-fzf-tjump'
 nmap <C-p> :FZF<CR>
-nmap <C-l> :Tjump 
-nmap <C-g> :Tags<CR>
+" nmap <C-l> :Tjump 
+nmap <C-l> :Tags<CR>
 nmap <C-.> :BTags<CR>
 nmap <C-a> :Rg 
 nmap <C-z> :Commits<CR>
@@ -215,11 +221,14 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'airblade/vim-rooter'
 let g:rooter_silent_chdir = 1
-let g:rooter_patterns = ['.root', '.svn', '.git', '.hg', '.project']
+" let g:rooter_patterns = ['.root', '.svn', '.git', '.hg', '.project']
+let g:rooter_patterns = ['.root']
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_color_dark = 1
 let g:indentLine_fileTypeExclude = ['']
+
+Plug 'kenn7/vim-arsync'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -297,5 +306,18 @@ let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 	" set noshowcmd noruler
 " endif
 set clipboard=unnamed
+
+nnoremap x "_x
+nnoremap X "_X
+nnoremap d "_d
+nnoremap dd "_dd
+nnoremap D "_D
+vnoremap d "_d
+vnoremap dd "_dd
+nnoremap c "_c
+nnoremap cc "_cc
+nnoremap C "_C
+vnoremap c "_c
+vnoremap cc "_cc
 
 au! BufNewFile,BufRead *.cc setf cpp
