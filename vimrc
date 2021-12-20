@@ -8,6 +8,7 @@ set nocompatible              " be iMproved, required
 filetype detect
 
 
+let g:plug_url_format = 'https://git::@hub.fastgit.org/%s.git'
 " set the runtime path to include Vundle and initialize
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
@@ -167,11 +168,6 @@ vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 
-Plug 'tpope/vim-fugitive'
-
-Plug 'junegunn/gv.vim', {'on': 'GV'}
-nmap <F9> :GV<CR>
-
 Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-overwin-f2)'}
 nmap f <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_verbose = 0
@@ -306,6 +302,7 @@ let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 	" set noshowcmd noruler
 " endif
 set clipboard=unnamed
+set pastetoggle=<F12>
 
 nnoremap x "_x
 nnoremap X "_X
