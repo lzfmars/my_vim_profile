@@ -8,7 +8,6 @@ set nocompatible              " be iMproved, required
 filetype detect
 
 
-let g:plug_url_format = 'https://git::@hub.fastgit.org/%s.git'
 " set the runtime path to include Vundle and initialize
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
@@ -95,10 +94,15 @@ set shortmess+=c
 " " Use command ':verbose imap <tab>' to make sure tab is not mapped by other
 " plugin.
 inoremap <silent><expr> <TAB>
-	  \ pumvisible() ? "\<C-n>" :
-	  \ <SID>check_back_space() ? "\<TAB>" :
-	  \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -107,11 +111,11 @@ endfunction
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if &filetype == 'vim'
-	execute 'h '.expand('<cword>')
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
   else
-	call CocAction('doHover')
+    call feedkeys('K', 'in')
   endif
 endfunction
 augroup mygroup
@@ -141,10 +145,10 @@ let g:ctrlsf_auto_focus = {
 let g:ctrlsf_ackprg = 'rg'
 let g:ctrlsf_extra_root_markers = ['.root']
 
-Plug 'junegunn/fzf', { 'do': './install --all'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'kg8m/vim-fzf-tjump'
-nmap <C-p> :FZF<CR>
+nmap <C-p> :Files<CR>
 " nmap <C-l> :Tjump 
 nmap <C-l> :Tags<CR>
 nmap <C-.> :BTags<CR>
