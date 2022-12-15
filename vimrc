@@ -70,7 +70,10 @@ let g:airline#extensions#fugitiveline#enabled = 1
 let g:airline#extensions#gutentags#enabled = 1
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#vista#enabled = 1
-let g:airline#extensions#ale#enabled = 0
+let g:airline#extensions#ale#enabled = 1
+
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = "gruvbox"
@@ -79,7 +82,7 @@ Plug 'morhetz/gruvbox'
 syntax on
 set background=dark
 set t_Co=256
-let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_contrast_dark = 'hard'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " if hidden is not set, TextEdit might fail.
@@ -148,7 +151,8 @@ let g:ctrlsf_extra_root_markers = ['.root']
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'kg8m/vim-fzf-tjump'
-nmap <C-p> :Files<CR>
+" nmap <C-p> :GFiles<CR>
+nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --cached --others --exclude-standard')."\<cr>"
 " nmap <C-l> :Tjump 
 nmap <C-l> :Tags<CR>
 nmap <C-.> :BTags<CR>
@@ -182,7 +186,7 @@ Plug 'vim-utils/vim-man', {'for': ['c', 'cpp'], 'on': ['<Plug>Man', '<Plug>Vman'
 map <leader>k <Plug>(Man)
 map <leader>v <Plug>(Vman)
 
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 let g:ale_set_loclist = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
