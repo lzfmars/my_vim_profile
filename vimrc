@@ -97,15 +97,15 @@ set shortmess+=c
 " " Use command ':verbose imap <tab>' to make sure tab is not mapped by other
 " plugin.
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1):
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+	  \ coc#pum#visible() ? coc#pum#next(1):
+	  \ CheckBackspace() ? "\<Tab>" :
+	  \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+							  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -116,9 +116,9 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
+	call CocActionAsync('doHover')
   else
-    call feedkeys('K', 'in')
+	call feedkeys('K', 'in')
   endif
 endfunction
 augroup mygroup
@@ -233,6 +233,8 @@ let g:indentLine_color_dark = 1
 let g:indentLine_fileTypeExclude = ['']
 
 Plug 'kenn7/vim-arsync'
+" vim-arsync depedencies
+Plug 'prabirshrestha/async.vim'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required

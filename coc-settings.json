@@ -13,4 +13,9 @@
   "python.linting.enabled": false,
   "python.pythonPath": "python3",
   "diagnostic.enable": false,
+  "clangd.path": "/usr/local/opt/llvm/bin/clangd",
+  "clangd.checkUpdates": true,
+  "clangd.disableSnippetCompletion": true,
+  "clangd.arguments": "-header-insertion=never",
+  "inlayHint.enable": false
 }
