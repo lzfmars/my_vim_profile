@@ -172,6 +172,7 @@ let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
 
 Plug 'voldikss/vim-translator'
+let g:translator_default_engines = ['bing', 'google', 'haici']
 " Echo translation in the cmdline
 nmap <silent> <Leader>t <Plug>Translate
 vmap <silent> <Leader>t <Plug>TranslateV
@@ -238,6 +239,8 @@ let g:indentLine_fileTypeExclude = ['']
 Plug 'kenn7/vim-arsync'
 " vim-arsync depedencies
 Plug 'prabirshrestha/async.vim'
+
+Plug 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
