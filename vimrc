@@ -173,12 +173,9 @@ let g:NERDRemoveExtraSpaces = 1
 
 Plug 'voldikss/vim-translator'
 let g:translator_default_engines = ['bing', 'google', 'haici']
-" Echo translation in the cmdline
-nmap <silent> <Leader>t <Plug>Translate
-vmap <silent> <Leader>t <Plug>TranslateV
 " Display translation in a window
-nmap <silent> <Leader>w <Plug>TranslateW
-vmap <silent> <Leader>w <Plug>TranslateWV
+nmap <silent> <C-t> <Plug>TranslateW
+vmap <silent> <C-t> <Plug>TranslateWV
 
 Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-overwin-f2)'}
 nmap f <Plug>(easymotion-overwin-f2)

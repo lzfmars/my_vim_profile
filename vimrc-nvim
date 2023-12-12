@@ -120,7 +120,7 @@ else
 endif
 nmap <C-l> :FzfLua tags<CR>
 nmap <C-.> :FzfLua btags<CR>
-nmap <C-a> :FzfLua grep
+nmap <C-a> :FzfLua grep search=
 
 Plug 'liuchengxu/vista.vim'
 nmap <F8> :Vista!!<CR>
