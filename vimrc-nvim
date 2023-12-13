@@ -13,8 +13,6 @@ filetype detect
 call plug#begin('~/.vim/plugged')
 
 " plugin in github
-" noremap <leader>l :ccl<cr>
-
 Plug 'bling/vim-airline'
 set laststatus=2
 set encoding=utf-8
@@ -97,19 +95,6 @@ augroup end
 noremap <silent> <leader>fs <Plug>(coc-references)
 noremap <silent> <leader>fg <Plug>(coc-definition)
 
-Plug 'dyng/ctrlsf.vim', {'on': ['<Plug>CtrlSFPrompt', '<Plug>CtrlSFVwordExec', '<Plug>CtrlSFCwordExec', 'CtrlSFToggle']}
-nmap gs <Plug>CtrlSFPrompt
-vmap ga <Plug>CtrlSFVwordExec
-nmap ga <Plug>CtrlSFCwordExec
-noremap gc <Esc>:CtrlSFToggle<CR>
-let g:ctrlsf_default_root = 'project'
-let g:ctrlsf_search_mode = 'async'
-let g:ctrlsf_auto_focus = {
-  \ "at": "start"
-  \ }
-let g:ctrlsf_ackprg = 'rg'
-let g:ctrlsf_extra_root_markers = ['.root']
-
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 if isdirectory('.git')
@@ -121,6 +106,8 @@ endif
 nmap <C-l> :FzfLua tags<CR>
 nmap <C-.> :FzfLua btags<CR>
 nmap <C-a> :FzfLua grep search=
+vmap ga :FzfLua grep_visual<CR>
+nmap ga :FzfLua grep_cword<CR>
 
 Plug 'liuchengxu/vista.vim'
 nmap <F8> :Vista!!<CR>
@@ -184,12 +171,7 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
-Plug 'sheerun/vim-polyglot'
-
-Plug 'airblade/vim-rooter'
-let g:rooter_silent_chdir = 1
-" let g:rooter_patterns = ['.root', '.svn', '.git', '.hg', '.project']
-let g:rooter_patterns = ['.root']
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'Yggdroot/indentLine'
 let g:indentLine_color_dark = 1
