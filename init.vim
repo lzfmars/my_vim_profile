@@ -221,26 +221,20 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ["<Tab>"] = cmp.mapping(function(fallback)
+	["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
-					cmp.select_next_item()
-				elseif vsnip.expand_or_jumpable() then
-					vsnip.expand_or_jump()
-				elseif has_words_before() then
-					fallback()
+			      cmp.select_next_item()
 				else
-					fallback()
+				  fallback()
 				end
-		  end, { "i", "s" }),
+			  end, { "i", "s" }),
 	["<S-Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
-					cmp.select_prev_item()
-				elseif vsnip.jumpable(-1) then
-					vsnip.jump(-1)
+		          cmp.select_prev_item()
 				else
-					fallback()
+				  fallback()
 				end
-	          end, { "i", "s" }),
+			  end, { "i", "s" }),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
   sources = cmp.config.sources({
