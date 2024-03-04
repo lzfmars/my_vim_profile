@@ -101,6 +101,15 @@ let g:indentLine_fileTypeExclude = ['']
 
 Plug 'tpope/vim-fugitive'
 
+Plug 'voldikss/vim-floaterm', {'on': 'FloatermNew'}
+nmap <F4> :FloatermNew<CR>
+tmap <ESC> :<C-\><C-n>:silent! FloatermKill<CR>
+au TermClose * :silent! FloatermKill<CR>
+
+Plug 'kenn7/vim-arsync'
+" vim-arsync depedencies
+Plug 'prabirshrestha/async.vim'
+
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 
@@ -110,9 +119,9 @@ autocmd FileType python set et |
 			\ set sw=4 |
 			\ set cc=80 |
 			\ set ts=4
-autocmd FileType c,cpp set sw=2 |
-			\ set ts=2 |
-			\ set sts=2 |
+autocmd FileType c,cpp set sw=4 |
+			\ set ts=4 |
+			\ set sts=4 |
 			\ set et |
 			\ set cc=81 |
 			\ set sta
@@ -142,12 +151,6 @@ set encoding=utf-8
 " let g:c_syntax_for_h = 0
 set foldlevelstart=99
 
-" if !has('nvim')
-	set backupdir=~/.vim/backup//
-	set directory=~/.vim/swap//
-	set undodir=~/.vim/undo//
-" endif
-
 map <leader>y "+y
 map <leader>p "+p
 
@@ -165,19 +168,9 @@ augroup resCur
   autocmd BufReadPost * call setpos(".", getpos("'\""))
 augroup END
 
-nmap <F4> :vs +te<CR>
-autocmd TermOpen * startinsert
-tnoremap <Esc> <C-\><C-n>:q<CR>
-
 let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
-" py3 sys.dont_write_bytecode = True
-
-" if has('nvim')
-	" set clipboard+=unnamedplus
-	" set noshowcmd noruler
-" endif
 set clipboard=unnamed
 
 nnoremap x "_x
@@ -240,8 +233,15 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' }, -- For vsnip users.
-  }, {
-    { name = 'buffer' },
+  }, { 
+	{
+    	name = 'buffer',
+    	option = {
+    		get_bufnrs = function()
+          		return vim.api.nvim_list_bufs()
+			end
+      	}
+    },
   }, {
     { name = 'cmp_tabnine' },
   })
@@ -277,12 +277,31 @@ cmp.setup.cmdline(':', {
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-local servers = { 'pyright', 'clangd', 'bashls', 'html', 'jsonls', 'sqlls', 'tsserver' }
+local servers = { 'bashls', 'html', 'jsonls', 'sqlls', 'tsserver', 'dockerls' }
 for i = 1, #servers do
   require('lspconfig')[servers[i]].setup {
     capabilities = capabilities
   }
 end
+require('lspconfig')['clangd'].setup {
+	capabilities = capabilities,
+	cmd = {
+		"clangd",
+		"--header-insertion=never",
+		"--all-scopes-completion"
+	}
+}
+require('lspconfig')['pyright'].setup {
+	capabilities = capabilities,
+	python = {
+		analysis = {
+			autoSearchPaths = true,
+    		diagnosticMode = "openFilesOnly",
+    		useLibraryCodeForTypes = true,
+			autoImportCompletions = false
+		}
+	}
+}
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
