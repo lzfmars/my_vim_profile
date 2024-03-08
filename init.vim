@@ -46,6 +46,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'lukas-reineke/cmp-rg'
 
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
@@ -55,7 +56,6 @@ noremap <leader>l :ccl<cr>
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 if isdirectory('.git')
-	" nmap <C-p> :Fzflua git_files --cached --others --exclude-standard<CR>
 	nmap <C-p> :lua require'fzf-lua'.git_files({ cmd = "git ls-files --cached --others --exclude-standard" })<CR>
 else
 	nmap <C-p> :FzfLua files<CR>
@@ -234,17 +234,18 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'vsnip' }, -- For vsnip users.
   }, { 
-	{
-    	name = 'buffer',
-    	option = {
-    		get_bufnrs = function()
-          		return vim.api.nvim_list_bufs()
-			end
-      	}
-    },
+    { name = 'rg' },
+	--{
+    --	name = 'buffer',
+    --	option = {
+    --		get_bufnrs = function()
+    --      		return vim.api.nvim_list_bufs()
+	--		end
+    --  	}
+    --},
   }, {
     { name = 'cmp_tabnine' },
-  })
+  }),
 })
 
 -- Set configuration for specific filetype.
@@ -283,14 +284,14 @@ for i = 1, #servers do
     capabilities = capabilities
   }
 end
-require('lspconfig')['clangd'].setup {
-	capabilities = capabilities,
-	cmd = {
-		"clangd",
-		"--header-insertion=never",
-		"--all-scopes-completion"
-	}
-}
+--require('lspconfig')['clangd'].setup {
+--	capabilities = capabilities,
+--	cmd = {
+--		"clangd",
+--		"--header-insertion=never",
+--		"--all-scopes-completion"
+--	}
+--}
 require('lspconfig')['pyright'].setup {
 	capabilities = capabilities,
 	python = {
