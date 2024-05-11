@@ -110,6 +110,8 @@ Plug 'kenn7/vim-arsync'
 " vim-arsync depedencies
 Plug 'prabirshrestha/async.vim'
 
+Plug 'tpope/vim-sleuth'
+
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 
@@ -172,6 +174,7 @@ let g:omni_sql_no_default_maps = 1
 let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 set clipboard=unnamed
+set mouse=
 
 nnoremap x "_x
 nnoremap X "_X
@@ -235,14 +238,14 @@ cmp.setup({
     { name = 'vsnip' }, -- For vsnip users.
   }, { 
     { name = 'rg' },
-	--{
-    --	name = 'buffer',
-    --	option = {
-    --		get_bufnrs = function()
-    --      		return vim.api.nvim_list_bufs()
-	--		end
-    --  	}
-    --},
+	{
+    	name = 'buffer',
+    	option = {
+    		get_bufnrs = function()
+          		return vim.api.nvim_list_bufs()
+			end
+      	}
+    },
   }, {
     { name = 'cmp_tabnine' },
   }),
