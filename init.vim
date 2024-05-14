@@ -10,7 +10,7 @@ filetype detect
 
 " set the runtime path to include Vundle and initialize
 " set rtp+=~/.vim/bundle/Vundle.vim
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " plugin in github
 Plug 'bling/vim-airline'
