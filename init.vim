@@ -103,7 +103,7 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'voldikss/vim-floaterm', {'on': 'FloatermNew'}
 nmap <F4> :FloatermNew<CR>
-tmap <ESC> :<C-\><C-n>:silent! FloatermKill<CR>
+tmap <ESC> :<C-\><C-n>:q<CR>
 au TermClose * :silent! FloatermKill<CR>
 
 Plug 'kenn7/vim-arsync'
@@ -175,6 +175,7 @@ let g:ftplugin_sql_omni_key = '<Plug>DisableSqlOmni'
 
 set clipboard=unnamed
 set mouse=
+set maxmempattern=100000
 
 nnoremap x "_x
 nnoremap X "_X
@@ -241,9 +242,9 @@ cmp.setup({
     {
       name = 'buffer',
       option = {
-	get_bufnrs = function()
-	  return vim.api.nvim_list_bufs()
-	end
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
       }
     },
   }, {
@@ -299,10 +300,10 @@ require('lspconfig')['pyright'].setup {
 	capabilities = capabilities,
 	python = {
 		analysis = {
-			autoSearchPaths = true,
+		autoSearchPaths = true,
     		diagnosticMode = "openFilesOnly",
     		useLibraryCodeForTypes = true,
-			autoImportCompletions = false
+		autoImportCompletions = false
 		}
 	}
 }
