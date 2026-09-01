@@ -107,9 +107,59 @@ let g:floaterm_width = 0.5
 " ESC 仅退出终端输入模式；F4 显示或隐藏窗口，并保留终端会话
 nnoremap <silent> <F4> :FloatermToggle<CR>
 tnoremap <silent> <F4> <C-\><C-n>:FloatermToggle<CR>
-tnoremap <ESC> <C-\><C-n>
-" 终端模式下由 Neovim 接管 Ctrl-w，避免被 shell 当作删除前一个单词
-tnoremap <C-w> <C-\><C-n><C-w>
+tnoremap <ESC> <Cmd>call <SID>LeaveTerminalInput()<CR>
+function! s:RunTerminalWindowCommand() abort
+  " 该映射只能从 t 触发；Ctrl-w 只是临时执行窗口命令，不应把持久状态改成 nt。
+  call s:SetTerminalInput(v:true)
+  " 立即等待下一键，避免短映射受 ttimeoutlen 影响而提前进入 Normal。
+  let l:key = getcharstr()
+  let l:move = l:key ==# "\<C-w>" ? 'w' : l:key
+  if index(['w', 'h', 'j', 'k', 'l'], l:move) >= 0
+    execute 'wincmd ' . l:move
+    return
+  endif
+
+  " Esc 只取消前缀；fallback 可短暂进入 Terminal-Normal，但不能覆盖已保存的 t。
+  " Ctrl-w 始终由 Neovim 消费，不会传给 shell 删除单词。
+  if l:key !=# "\<Esc>"
+    call feedkeys("\<C-\>\<C-n>\<C-w>" . l:key, 'n')
+  endif
+endfunction
+
+tnoremap <C-w> <Cmd>call <SID>RunTerminalWindowCommand()<CR>
+
+function! s:SetTerminalInput(active) abort
+  if &buftype !=# 'terminal'
+    return
+  endif
+
+  " t/nt 状态属于 terminal buffer；窗口离开后全局 mode() 只能看到当前窗口的模式。
+  let b:resume_terminal_input = a:active
+  if &filetype ==# 'floaterm'
+    " Floaterm smart 根据光标位置猜测；固定为真实状态，避免返回窗口时误判。
+    call floaterm#config#set(bufnr(), 'autoinsert',
+          \ a:active ? 'always' : 'never')
+  endif
+endfunction
+
+function! s:LeaveTerminalInput() abort
+  " 在显式退出 t 之前记录 nt；这里只处理当前配置的 ESC，不接管原生组合键。
+  call s:SetTerminalInput(v:false)
+  call feedkeys("\<C-\>\<C-n>", 'n')
+endfunction
+
+function! s:RestoreTerminalInput() abort
+  " 只恢复离开前正在输入的终端；Terminal-Normal 必须保持 Normal。
+  if &buftype ==# 'terminal' && get(b:, 'resume_terminal_input', v:false)
+    startinsert
+  endif
+endfunction
+
+augroup terminal_input_by_window
+  autocmd!
+  autocmd TermEnter * call <SID>SetTerminalInput(v:true)
+  autocmd WinEnter * call <SID>RestoreTerminalInput()
+augroup END
 au TermClose * :silent! FloatermKill<CR>
 
 Plug 'kenn7/vim-arsync'
