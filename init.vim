@@ -14,6 +14,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " plugin in github
 Plug 'bling/vim-airline'
+Plug 'enricobacis/vim-airline-clock'
 set laststatus=2
 set encoding=utf-8
 set ttimeoutlen=50
@@ -26,6 +27,7 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#fugitiveline#enabled = 1
 let g:airline#extensions#vista#enabled = 1
 let g:airline#extensions#nvimlsp#enabled = 0
+let g:airline#extensions#clock#format = '%H:%M'
 
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme = "gruvbox"
@@ -221,7 +223,11 @@ function! s:SyncInputSource() abort
     return
   endif
 
-  let l:target = &buftype ==# 'terminal' && mode(1) =~# '^t'
+  " fzf-lua 的查询框虽然是 Terminal buffer，但输入内容主要是路径和代码关键词，应保持 ABC。
+  let l:use_terminal_input = &buftype ==# 'terminal'
+        \ && &filetype !=# 'fzf'
+        \ && mode(1) =~# '^t'
+  let l:target = l:use_terminal_input
         \ ? s:terminal_input_source
         \ : s:code_input_source
   let l:current = trim(system([s:macism]))
